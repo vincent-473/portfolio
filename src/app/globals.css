@@ -1,0 +1,143 @@
+@import "tailwindcss";
+
+@theme inline {
+  --color-ink: #06080b;
+  --color-panel: #0b0f14;
+  --color-raise: #11161d;
+  --color-line: rgb(255 255 255 / 0.08);
+  --color-line-strong: rgb(255 255 255 / 0.16);
+  --color-fg: #e9edf2;
+  --color-mute: #8e98a8;
+  --color-dim: #5b6472;
+  --color-go: #3fd5f7;
+  --color-amber: #ffb547;
+  --color-green: #5be49b;
+  --color-violet: #a99bff;
+  --color-red: #ff6b6b;
+
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+  --font-serif: var(--font-serif-display), ui-serif, Georgia, serif;
+
+  --animate-marquee: marquee 40s linear infinite;
+  --animate-blink: blink 1.1s steps(2) infinite;
+  --animate-flow: flow 2.4s linear infinite;
+
+  @keyframes marquee {
+    to {
+      transform: translateX(-50%);
+    }
+  }
+  @keyframes blink {
+    50% {
+      opacity: 0;
+    }
+  }
+  @keyframes flow {
+    to {
+      stroke-dashoffset: -48;
+    }
+  }
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 5rem;
+  background: var(--color-ink);
+  color-scheme: dark;
+}
+
+body {
+  background: var(--color-ink);
+  color: var(--color-fg);
+  font-family: var(--font-sans);
+  overflow-x: hidden;
+}
+
+::selection {
+  background: var(--color-go);
+  color: var(--color-ink);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-go);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* Film grain over everything — keeps the dark surfaces from looking flat. */
+.grain::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  pointer-events: none;
+  opacity: 0.05;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+.grid-bg {
+  background-image:
+    linear-gradient(to right, rgb(255 255 255 / 0.035) 1px, transparent 1px),
+    linear-gradient(to bottom, rgb(255 255 255 / 0.035) 1px, transparent 1px);
+  background-size: 56px 56px;
+}
+
+/* Range inputs for the playground */
+input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 20px;
+  background: transparent;
+  cursor: pointer;
+}
+input[type="range"]::-webkit-slider-runnable-track {
+  height: 2px;
+  background: var(--color-line-strong);
+}
+input[type="range"]::-moz-range-track {
+  height: 2px;
+  background: var(--color-line-strong);
+}
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 14px;
+  height: 14px;
+  margin-top: -6px;
+  border-radius: 999px;
+  background: var(--color-go);
+  box-shadow: 0 0 0 4px rgb(63 213 247 / 0.15);
+}
+input[type="range"]::-moz-range-thumb {
+  width: 14px;
+  height: 14px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--color-go);
+  box-shadow: 0 0 0 4px rgb(63 213 247 / 0.15);
+}
+
+.no-scrollbar {
+  scrollbar-width: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}
+
+/* The terminal prompt shows its own caret; no focus ring needed there. */
+#term-input:focus-visible {
+  outline: none;
+}
